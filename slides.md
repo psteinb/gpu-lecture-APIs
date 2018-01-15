@@ -119,76 +119,7 @@ _AMD Radeon Instinct MI25_
 <!-- http://www.theregister.co.uk/2012/05/18/inside_nvidia_kepler2_gk110_gpu_tesla/ -->
 # Architecture { data-background="img/nvidia_kepler_die_shot.jpg" } 
 
-
-## { data-background="img/islay_1024px.png" data-background-size="800px" }
-
-
-
-## { data-background="img/islay_annotated_1024px.png" data-background-size="800px" }
-
-
-## Food Hunt
-
-[columns,class="row vertical-align"]
-
-[column,class="col-xs-6"]
-
-<!-- https://commons.wikimedia.org/wiki/File:Thunnus_orientalis_(Osaka_Kaiyukan_Aquarium).jpg -->
-<center>
-Tuna  
-![](img/1024px-Thunnus_orientalis_Osaka_Kaiyukan_Aquarium_cropped_x400.jpg)  
-(fast, single, versatile)
-</center>
-
-[/column]
-
-
-[column,class="col-xs-6"]
-
-<!-- https://commons.wikimedia.org/wiki/File:School_of_Pterocaesio_chrysozona_in_Papua_New_Guinea_1.jpg -->
-<center>
-Forage Fish  
-![](img/1024px-School_of_Pterocaesio_chrysozona_in_Papua_New_Guinea_1_x400.jpg)  
-(small, many, use wakefield of neighbor)
-</center>
-
-[/column]
-
-[/columns]
-
-
-
-## The same principle on die
-
-[columns,class="row vertical-align"]
-
-[column,class="col-xs-6"]
-
-<!-- TODO -->
-<center>
-CPU  
-![](img/Central-Processing-Unit_x400.jpeg)
-</center>
-
-[/column]
-
-[column,class="col-xs-6"]
-
-<!-- TODO -->
-<center>
-GPU  
-![](img/Nvidia-Tesla-K80_x400.jpg)
-</center>
-
-[/column]
-
-[/columns]
-
-<center>
-Note: Will use Nvidia Kepler as GPGPU example.
-</center>
-
-## A more in-depth look
+## From a high level
 
 <center>
 <object type="image/svg+xml" data="figures/K40.svg"
@@ -306,56 +237,6 @@ height="200" border="0" class="img-rounded">
 [/columns]
 
 
-## Hiding Memory Latency
-
-* [Kepler](http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#multiprocessor-level):
-
-	* global memory access: 200-400 ticks per warp
-
-	* fp32 add/mul/fma: 32 per tick per warp
-
-. . .
-
-&nbsp;
-
-[columns,class="row vertical-align"]
-
-[column,class="col-xs-12"]
-
-<center>
-<object type="image/svg+xml" data="figures/high_throughput_smx.svg"
-width="1400" border="0" class="img-rounded">
-</object>
-</center>
-
-[/column]
-
-[/columns]
-
-* hide (memory) latency by pipelining active warps
-
-
-#  { data-background="img/1024px-unmarked_holes.jpg" }
-
-## Compute > Memory Access
-
-<center>
-<object type="image/svg+xml" data="figures/high_throughput_smx.svg"
-width="1400" border="0" class="img-rounded">
-</object>
-
-&nbsp;
-
-* device kernels
-
-    * arithmetic complexity needs to be high 
-
-    * number of arithmetic operations > number of load/store operations
-
-</center>
-
-
-
 ## Data Locality
 
 <center>
@@ -376,56 +257,6 @@ width="1400" border="0" class="img-rounded">
 
 </center>
 
-## Memory Access
-
-<center>
-
-**Bad: Non-Coalesced Memory Access**
-
-[columns,class="row vertical-align"]
-
-[column,class="col-xs-12"]
-
-<object type="image/svg+xml" data="figures/non_coalesced_mem_access.svg"
-width="1200" border="0" class="img-rounded">
-</object>
-
-* every thread accesses different cache line at random
-* warp has to be replayed 31 times to complete 1 instruction
-
-[/column]
-
-[/columns]
-
-</center>
-
-
-. . .
-
-
-
-<center>
-**Good: Coalesced Memory Access**
-
-[columns,class="row vertical-align"]
-
-[column,class="col-xs-12"]
-
-
-<object type="image/svg+xml" data="figures/coalesced_mem_access.svg"
-width="1200" border="0" class="img-rounded">
-</object>
-
-
-
-[/column]
-
-[/columns]
-
-</center>
-
-
-
 
 
 ## Summary Architecture
@@ -435,12 +266,12 @@ width="1200" border="0" class="img-rounded">
 
 * **massive parallel compute power** (per Watt) 
 
-* **massive ways to kill performance**
+* **any API needs to support the above**
 </center>
 
 <!-- https://commons.wikimedia.org/wiki/File:Colorful_Guitars,_Haight_Street,_San_Francisco.jpg -->
 
-# What can you use today? { data-background="img/1024px-San_Francisco_Haight_Str_Guitar_Shop.jpg" style="color: black; margin: 0;margin-top: -100px;" }
+# APIs today? { data-background="img/1024px-San_Francisco_Haight_Str_Guitar_Shop.jpg" style="color: black; margin: 0;margin-top: -100px;" }
 
 ## A Word of Warning!
 
@@ -471,89 +302,6 @@ width="1200" border="0" class="img-rounded">
 
 </center>
 </div>
-
-[/column]
-
-[/columns]
-
-
-## Use Libraries!
-
-[columns,class="row"]
-
-[column,class="col-xs-6"]
-
-<center>
-**Vendor sponsored**
-</center>
-
-[/column]
-
-[column,class="col-xs-6"]
-
-<center>
-**Open Source**
-</center>
-
-[/column]
-
-[/columns]
-
-
-[columns,class="row"]
-
-[column,class="col-xs-3 text-right"]
-
-<center>
-[CUDA](https://developer.nvidia.com/gpu-accelerated-libraries) based  
-
-* cuBLAS
-* cuFFT
-* cuDNN
-* cuSparse
-* cuSolver
-* cuRAND  
-...
-
-</center>
-
-[/column]
-
-
-[column,class="col-xs-3"]
-
-<center>
-[OpenCL](http://developer.amd.com/tools-and-sdks/opencl-zone/acl-amd-compute-libraries/) based  
-
-* clBLAS
-* clFFT
-* clSparse
-* clRNG  
-...
-
-</center>
-
-
-
-[/column]
-
-[column,class="col-xs-6"]
-
-<center>
-* Multi-Purpose:  
-[Alpaka](https://github.com/ComputationalRadiationPhysics/alpaka), [ArrayFire](https://github.com/arrayfire/arrayfire),   
-[VexCL](https://github.com/ddemidov/vexcl), [ViennaCL](http://viennacl.sourceforge.net/), ...
-
-* Image/Video Processing:  
-[OpenCV](http://opencv.org/), [Ffmpeg](http://ffmpeg.org/), ...
-
-* Machine Learning:  
-  [Caffe](http://caffe.berkeleyvision.org/), [Torch](http://torch.ch/), ...
-
-* Bioinformatics:  
-[SeqAn](http://www.seqan.de/), [nvbio](https://github.com/NVlabs/nvbio), ...
-
-</center>
 
 [/column]
 
@@ -606,9 +354,9 @@ void vector_sum(std::vector<float>& a,
 
 * source code split into host and device part
 
-    * host  : C++11 and STL supported
+    * host  : C++11/14 and STL supported
     
-    * device: tiny subset of C++11  
+    * device: subset of C++11/14  
 	(no exceptions, no iostream, no virtual inheritance, no STL)
 
 </center>
@@ -709,7 +457,7 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 
 <center>
 
-* plain C API  
+* plain C runtime API on host  
 (memory allocation, error handling, asynchronous calls, ...)
 
 * grid dispatch is error prone  
@@ -767,6 +515,25 @@ _No Logo due to Apple's Copyright_
 
 
 </center>
+
+## Standardisation
+
+<center>
+![](img/opencl-standardisation.jpg)
+</center>
+
+## Implementers
+
+<center>
+![](img/opencl-companies.jpg)
+</center>
+
+## OpenCL eco system
+
+<center>
+![](img/opencl-ecosystem.png)
+</center>
+
 
 ## OpenCL Kernel
 
