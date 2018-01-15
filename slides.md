@@ -270,7 +270,9 @@ width="1400" border="0" class="img-rounded">
 </center>
 
 
+
 # APIs today? { data-background="img/1024px-San_Francisco_Haight_Str_Guitar_Shop.jpg" style="color: black; margin: 0;margin-top: -100px;" }
+
 
 
 ## A Word of Warning!
@@ -312,14 +314,19 @@ width="1400" border="0" class="img-rounded">
 
 <center>
 ```
-void vector_sum(std::vector<float>& a,
-				float scale, const std::vector<float>& b) {
-	for (int i=0; i<a.size(); i++) 
-		a[i] = a[i] + b[i];
-}
-```
+void vector_sum(std::vector<float>& a, 
+				float scale, const std::vector<float>& b) { 
+	for (int i=0; i<a.size(); i++)  
+		a[i] = a[i] + b[i]; 
+} 
+``` 
 **Vector Sum**
-</center>
+
+&nbsp;
+
+Example: [BabelStream Benchmark](https://github.com/UoB-HPC/BabelStream/blob/v3.3)
+
+</center> 
 
 
 ## CUDA Overview
@@ -329,7 +336,7 @@ void vector_sum(std::vector<float>& a,
 [column,class="col-xs-8"]
 
 <center>
-**C**ompute **U**nified **D**evice **A**rchitecture  
+**C**ompute **U**nified **D**evice **A**rchitecture
 ([Nvidia CUDA Zone](https://developer.nvidia.com/cuda-zone))
 </center>
 
@@ -348,7 +355,7 @@ void vector_sum(std::vector<float>& a,
 <center>
 * freeware tool suite, gpu library package and low/high level API(s)
 
-* CUDA platform supports C and C++ with proprietary compiler 
+* CUDA platform supports C and C++ with proprietary compiler
 
 * binaries run on Nvidia hardware only
 
@@ -356,7 +363,7 @@ void vector_sum(std::vector<float>& a,
 
     * host  : C++11/14 and STL supported
     
-    * device: subset of C++11/14  
+    * device: subset of C++11/14
 	(no exceptions, no iostream, no virtual inheritance, no STL)
 
 </center>
@@ -373,9 +380,9 @@ void vector_sum(std::vector<float>& a,
 1. Initialize host data.
 1. Transfer data from the host to the device.
 1. Execute one or more kernels (vector sum).
-1. Transfer results from the device to the host.  
+1. Transfer results from the device to the host.
 
-&nbsp; 
+&nbsp;
 
 [BabelStream CUDA](https://github.com/UoB-HPC/BabelStream/blob/v3.3/CUDAStream.cu#L22)
 
@@ -392,7 +399,7 @@ int main(/*..*/){//..
   std::vector<float> host_b(vsize,2.f);
 
   float * device_a=nullptr, *device_b=nullptr;
-  cudaMalloc(&device_a, vsize_byte); 
+  cudaMalloc(&device_a, vsize_byte);
   cudaMalloc(&device_b, vsize_byte);
 
   cudaMemcpy(device_a, &host_a[0], vsize_byte,
@@ -446,10 +453,10 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 
 * _free and working_
 
-* CUDA comes with a _ton of tools_  
+* CUDA comes with a _ton of tools_
 (debugger, profiler, libraries, ...)
 
-* CUDA comes with a _ton of examples_ 
+* CUDA comes with a _ton of examples_
 
 * very _flexible_ (device instrinsics, locked memory handling, ...)
 
@@ -462,17 +469,17 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 [/column]
 
 
-. . . 
+. . .
 
 
 [column,class="col-xs-6 text-warning"]
 
 <center>
 
-* plain C runtime API on host  
+* plain C runtime API on host
 (memory allocation, error handling, asynchronous calls, ...)
 
-* grid dispatch is error prone  
+* grid dispatch is error prone
 (code repetition in index calculation)
 
 * compiler is sometimes hard to come by (using boost, OpenMP interoperability)
@@ -497,7 +504,7 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 [column,class="col-xs-6"]
 
 <center>
-**Open C**ompute **L**anguage  
+**Open C**ompute **L**anguage
 ([khronos.org/opencl](https://www.khronos.org/opencl/))
 </center>
 
@@ -558,7 +565,7 @@ _No Logo due to Apple's Copyright_
 ## OpenCL API flow
 
 <center>
-![](img/opencl-APIflow.png)  
+![](img/opencl-APIflow.png)
 
 &nbsp;
 
@@ -589,7 +596,7 @@ from [www.olcf.ornl.gov](https://www.olcf.ornl.gov/tutorials/opencl-vector-addit
 </center>
 
 
-## OpenCL is like ... 
+## OpenCL is like ...
 
 <center>
 ![by [Kasra Ganjavi](https://en.wikipedia.org/wiki/File:Andy_McKee,_January_2008.jpg)](img/Andy_McKee_January_2008.jpg)
@@ -602,21 +609,16 @@ from [www.olcf.ornl.gov](https://www.olcf.ornl.gov/tutorials/opencl-vector-addit
 
 [column,class="col-xs-6"]
 
-<center>
-
 OpenCL
 
 * local memory
 
 * private memory
 
-</center>
 
 [/column]
 
 [column,class="col-xs-6"]
-
-<center>
 
 CUDA
 
@@ -624,35 +626,29 @@ CUDA
 
 * local memory
 
-</center>
-
 [/column]
 
 [/columns]
 
 
-. . . 
+. . .
 
 
 [columns,class="row"]
 
 [column,class="col-xs-6"]
 
-<center>
-
-* `NDRange` (index space) 
+* NDRange (index space)
 
 * work group
 
 * work item
 
-</center>
 
 [/column]
 
 [column,class="col-xs-6"]
 
-<center>
 
 * grid
 
@@ -660,7 +656,6 @@ CUDA
 
 * thread
 
-</center>
 
 [/column]
 
@@ -671,9 +666,7 @@ CUDA
 ## [Boost.Compute](https://github.com/boostorg/compute)
 
 <center>
-* part of boost library
-
-* OpenCL wrapper enabling vendor independent parallel algorithms
+OpenCL wrapper enabling vendor independent parallel algorithms
 
 </center>
 
@@ -715,20 +708,20 @@ CUDA
 
 [/column]
 
-. . . 
+. . .
 
 [column,class="col-xs-6 text-warning"]
 
 <center>
 
-* plain C runtime API on host + device  
+* plain C runtime API on host + device
 (memory allocation, error handling, asynchronous calls, ...)
 
 * more explicit than CUDA
 
 * no good tooling (debuggers, profilers, ...)
 
-* kernels as strings? (runtime reveals bugs) 
+* kernels as strings? (runtime reveals bugs)
   
 * kernels written in C99 originally
 
@@ -754,7 +747,7 @@ _parallel algorithms library which resembles the C++ Standard Template Library (
 [column,class="col-xs-4"]
 
 <center>
-![](img/thrust_logo.png)  
+![](img/thrust_logo.png)
 [thrust.github.io](http://thrust.github.io/)
 </center>
 
@@ -773,7 +766,7 @@ _parallel algorithms library which resembles the C++ Standard Template Library (
 </center>
 
 
-## thrust Code: Functor 
+## thrust Code: Functor
 
 ~~~ {.cpp}
 struct saxpy_functor :
@@ -785,7 +778,7 @@ public thrust::binary_function<float,float,float>
 	__host__ __device__
     float operator()(const float& x,
 					 const float& y
-					) const { 
+					) const {
             return a * x + y;
         }
 };
@@ -802,10 +795,10 @@ int main(//...){//..
   thrust::device_vector<float> dev_a = host_a;
   thrust::device_vector<float> dev_b = host_b;
 
-  thrust::transform(dev_a.begin(),dev_a.end(), 
+  thrust::transform(dev_a.begin(),dev_a.end(),
 					dev_b.begin(),
 				    dev_a.begin(),
-				    saxpy_functor(scale));	
+				    saxpy_functor(scale));
 }
 ~~~
 
@@ -818,7 +811,7 @@ int main(//...){//..
 <center>
 * C++ and STL for GPUs (and CPUs)!
 
-* container and algorithm API well thought through 
+* container and algorithm API well thought through
 
 * code becomes readable/maintainable (at least for a C++Dev)
 
@@ -829,12 +822,12 @@ int main(//...){//..
 
 [/column]
 
-. . . 
+. . .
 
 [column,class="col-xs-6 text-warning"]
 
 <center>
-* loss of flexibility:  
+* loss of flexibility:
 
     * host-device i/o (pinned memory allocator considered experimental)
 
@@ -842,10 +835,9 @@ int main(//...){//..
 
     * grid distpatch of kernel by thrust library (occupancy)
 
-* kernel optimisations = CUDA  
+* kernel optimisations = CUDA
 ([CUB](https://nvlabs.github.io/cub/) library?)
 
-* C++11, C++17 ?
 </center>
 
 [/column]
@@ -866,7 +858,7 @@ int main(//...){//..
 [column,class="col-xs-6"]
 
 <center>
-**H**eterogenous **C**ompute **C**ompiler  
+**H**eterogenous **C**ompute **C**ompiler
 ([bitbucket.org/multicoreware/hcc](https://bitbucket.org/multicoreware/hcc/wiki/Home))
 </center>
 
@@ -875,7 +867,7 @@ int main(//...){//..
 [column,class="col-xs-4"]
 
 <center>
-meant for APU  
+meant for APU
 ![](img/apu_comic.gif)  
 **A**ll-purpose G**PU**s
 </center>
@@ -885,14 +877,9 @@ meant for APU
 [/columns]
 
 <center>
-* single source C++ compiler (for CPU, GPU and APU targets)
+* single source C++ compiler (for CPU, GPU and some APU targets)
 
 * supports C++AMP 1.2, HC, OpenMP 4, C++1x
-
-* currently being ported to discrete GPUs
-
-* very young project [presented](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/p0069r0.pdf) in Kona 
-</center>
 
 ## HCC Vector Sum (C++AMP)
 
@@ -905,8 +892,8 @@ void amp_sum(vector<float>& _va,
 		 
   extent<1> ext_a(_va.size()),ext_b(_vb.size());
 
-  array_view<float, 1> view_a(ext_a,_va); 
-  array_view<const float, 1> view_b(ext_b,_vb); 
+  array_view<float, 1> view_a(ext_a,_va);
+  array_view<const float, 1> view_b(ext_b,_vb);
 ```
 
 ## HCC continued
@@ -943,41 +930,41 @@ void amp_sum(vector<float>& _va,
 
 * function continuations supported
 ```
-future1.then(future2)//..
-```
-</center>
+future1.then(future2)//.. 
+``` 
+</center> 
 
-[/column]
+[/column] 
 
-. . . 
+. . .  
 
-[column,class="col-xs-6 text-warning"]
+[column,class="col-xs-6 text-warning"] 
 
-<center>
+<center> 
 
-* young project, API still fluid (`concurrency::` => `hc::`)
+* young project, API still fluid (`concurrency::` => `hc::`) 
 
-* no tooling yet (debugger, profiler, ...)
+* no tooling yet (debugger, profiler, ...) 
 
-* performance yield unclear
+* performance yield unclear 
 
-* combined API for integrated and discrete GPUs
+* combined API for integrated and discrete GPUs 
 
-* HSA/AMD road map unclear
+* HSA/AMD road map unclear 
 
-</center>
+</center> 
 
-[/column]
+[/column] 
 
-[/columns]
+[/columns] 
 
-## HC is like ...
+## HC is like ... 
 
-<center>
-![](img/Elektrofryingpan_landscape.jpg)  
-1932, by [Museum of Making Music at English Wikipedia](https://commons.wikimedia.org/wiki/File:Elektrofryingpan.jpg)
+<center> 
+![](img/Elektrofryingpan_landscape.jpg)   
+1932, by [Museum of Making Music at English Wikipedia](https://commons.wikimedia.org/wiki/File:Elektrofryingpan.jpg) 
 
-</center>
+</center> 
 
 
 ## Pragma based approaches
@@ -987,7 +974,7 @@ future1.then(future2)//..
 [column,class="col-xs-6"]
 
 <center>
-**Open M**ulti-**P**rocessing  
+**Open M**ulti-**P**rocessing
 ([openmp.org](http://openmp.org/))
 </center>
 
@@ -996,7 +983,7 @@ future1.then(future2)//..
 [column,class="col-xs-4"]
 
 <center>
-![](img/OpenMP_logo.png)  
+![](img/OpenMP_logo.png)
 </center>
 
 [/column]
@@ -1026,7 +1013,7 @@ accelerator target since version 4.0 ([gcc 5.0+](https://gcc.gnu.org/wiki/Offloa
 [column,class="col-xs-6"]
 
 <center>
-**Open Acc**elerator  
+**Open Acc**elerator
 ([openacc.org](http://openacc.org/))
 </center>
 
@@ -1035,7 +1022,7 @@ accelerator target since version 4.0 ([gcc 5.0+](https://gcc.gnu.org/wiki/Offloa
 [column,class="col-xs-4"]
 
 <center>
-![](img/openacc_logo.jpg)  
+![](img/openacc_logo.jpg)
 </center>
 
 [/column]
@@ -1054,7 +1041,7 @@ void vector_sum(int size, float scale, float *a, float *b) {
 ~~~~
 
 <center>
-(partially available in [gcc 5.0+](https://gcc.gnu.org/wiki/Offloading),  
+(partially available in [gcc 5.0+](https://gcc.gnu.org/wiki/Offloading),
 fully in [pgi](https://www.pgroup.com/resources/accel.htm) & [ENZO2016](http://www.pathscale.com/enzo) compiler)
 </center>
 
@@ -1066,7 +1053,7 @@ fully in [pgi](https://www.pgroup.com/resources/accel.htm) & [ENZO2016](http://w
 
 <center>
 
-* OpenMP is (already) a success story  
+* OpenMP is (already) a success story
 (why not OpenACC as well)
 
 * dream: one-line injection and code is fast
@@ -1079,7 +1066,7 @@ fully in [pgi](https://www.pgroup.com/resources/accel.htm) & [ENZO2016](http://w
 
 [/column]
 
-. . . 
+. . .
 
 [column,class="col-xs-6 text-warning"]
 
@@ -1101,7 +1088,6 @@ fully in [pgi](https://www.pgroup.com/resources/accel.htm) & [ENZO2016](http://w
 
 ## Pragmas are like ...
 
-
 <center>
 ![](img/1024px-Ukulele-electro-acoustic.jpg)  
 by [Alno](https://commons.wikimedia.org/wiki/File:Ukulele-electro-acoustic.JPG)
@@ -1110,7 +1096,7 @@ by [Alno](https://commons.wikimedia.org/wiki/File:Ukulele-electro-acoustic.JPG)
 
 
 
-# [What can you use tomorrow](http://bloggerspath.com/5-cool-unusual-gadgets-to-observe-the-future/) { data-background="img/touchscreen-guitar.jpg" }
+## What's next?
 
 
 
@@ -1131,7 +1117,7 @@ Published already:
 [column,class="col-xs-4"]
 
 <center>
-[![](img/logo-cpp.jpg)](https://isocpp.org)  
+[![](img/logo-cpp.jpg)](https://isocpp.org)
 </center>
 
 [/column]
@@ -1153,13 +1139,13 @@ transform(	std::experimental::parallel::par,
 
 <div style="width: 70%;align: center;">
 ```
-std::parallel::cuda, std::parallel::opencl
-```
-</div>
+std::parallel::cuda
+``` 
+</div> 
 
-</center>
+</center> 
 
-## C++17 and GPUs
+## C++17 and host-device interaction
 
 . . .
 
@@ -1182,18 +1168,20 @@ taken from concurrency TS
 
 * future: use `(a)wait/then` and friends to express data dependencies
 
-* support by compiler vendors needed 
+* support by compiler vendors needed
 </center>
 
 
 # Summary
 
+## 
+
 <center>
 
 * in production: almost dominated by C99 or C99-like APIs
 
-* on the horizon: performant, flexible and maintainable **C++ APIs** emerging 
-(cub/thrust, boost.compute, sycl, ...) 
+* on the horizon: performant, flexible and maintainable **C++ APIs** emerging
+(cub/thrust, boost.compute, sycl, ...)
 
 * GPUs architecture is complex: obtaining max. performance challenging
 
@@ -1289,7 +1277,7 @@ taken from concurrency TS
 <center>
 **For Questions, Comments, Complaints, Compliments, ... **
 
-**[github.com/psteinb/meetingcpp2015](https://github.com/psteinb/meetingcpp2015)**
+**[github.com/psteinb/gpu-lecture-APIs](https://github.com/psteinb/gpu-lecture-APIs)**
 </center>
 
 
