@@ -269,9 +269,9 @@ width="1400" border="0" class="img-rounded">
 * **any API needs to support the above**
 </center>
 
-<!-- https://commons.wikimedia.org/wiki/File:Colorful_Guitars,_Haight_Street,_San_Francisco.jpg -->
 
 # APIs today? { data-background="img/1024px-San_Francisco_Haight_Str_Guitar_Shop.jpg" style="color: black; margin: 0;margin-top: -100px;" }
+
 
 ## A Word of Warning!
 
@@ -368,14 +368,17 @@ void vector_sum(std::vector<float>& a,
 
 <div style="font-size: 1.5em">
 <center>
+
 1. Declare and allocate host and device memory.
 1. Initialize host data.
 1. Transfer data from the host to the device.
 1. Execute one or more kernels (vector sum).
 1. Transfer results from the device to the host.  
 
+&nbsp; 
 
 [BabelStream CUDA](https://github.com/UoB-HPC/BabelStream/blob/v3.3/CUDAStream.cu#L22)
+
 </center>
 </div>
 
@@ -398,6 +401,7 @@ int main(/*..*/){//..
 			 cudaMemcpyHostToDevice);
 ~~~~
   
+
 ## CUDA Code: Compute
 
 ~~~~ {.cpp}
@@ -415,6 +419,7 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 									 device_b);
 ~~~~~
 
+
 ## CUDA Code: Mem TX + Clean-up
 
 ~~~~ {.cpp}
@@ -429,6 +434,7 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 }
 
 ~~~~~
+
 
 ## CUDA Wrap-up
 
@@ -455,7 +461,9 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 
 [/column]
 
+
 . . . 
+
 
 [column,class="col-xs-6 text-warning"]
 
@@ -477,9 +485,12 @@ vector_sum<<<(vsize+255)/256, 256>>>(vsize,
 
 [/columns]
 
+
 ## CUDA is like ... { data-background="img/1024px-Taylor415_acoustic.jpg" }
 
+
 ## OpenCL
+
 
 [columns,class="row vertical-align"]
 
@@ -517,10 +528,11 @@ _No Logo due to Apple's Copyright_
 
     * device: C99 (OpenCL <2) or C11 derived language ([OpenCL 2.0](https://www.khronos.org/registry/cl/sdk/2.0/docs/OpenCL-2.0-refcard.pdf))
 
-
 </center>
 
+
 ## Standardisation
+
 
 <center>
 ![](img/opencl-standardisation.jpg)
@@ -528,17 +540,20 @@ _No Logo due to Apple's Copyright_
 
 * OpenCL 2.2 out since May 16, 2017 (C++14 in kernels, SPIR-V 1.1 as intermediate language)
 
+
 ## Implementers
 
 <center>
 ![](img/opencl-companies.png)
 </center>
 
+
 ## OpenCL eco system
 
 <center>
 ![](img/opencl-ecosystem.png)
 </center>
+
 
 ## OpenCL API flow
 
@@ -573,11 +588,13 @@ const char *kernelSource =                     "\n" \
 from [www.olcf.ornl.gov](https://www.olcf.ornl.gov/tutorials/opencl-vector-addition/)
 </center>
 
+
 ## OpenCL is like ... 
 
 <center>
 ![by [Kasra Ganjavi](https://en.wikipedia.org/wiki/File:Andy_McKee,_January_2008.jpg)](img/Andy_McKee_January_2008.jpg)
 </center>
+
 
 ## OpenCL Translation Table
 
@@ -648,6 +665,8 @@ CUDA
 [/column]
 
 [/columns]
+
+
 
 ## [Boost.Compute](https://github.com/boostorg/compute)
 
@@ -838,6 +857,7 @@ int main(//...){//..
 <center>
 ![by [axeplace.com](http://axepalace.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/d/v/dv020_jpg_jumbo_h70433.001_black_flat3.jpg)](img/baseguitar.jpg)
 </center>
+
 
 ## HCC
 
