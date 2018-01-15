@@ -315,7 +315,7 @@ width="1400" border="0" class="img-rounded">
 void vector_sum(std::vector<float>& a,
 				float scale, const std::vector<float>& b) {
 	for (int i=0; i<a.size(); i++) 
-		a[i] = a[i] * scale + b[i];
+		a[i] = a[i] + b[i];
 }
 ```
 **Vector Sum**
@@ -373,8 +373,13 @@ void vector_sum(std::vector<float>& a,
 1. Transfer data from the host to the device.
 1. Execute one or more kernels (vector sum).
 1. Transfer results from the device to the host.  
+
+
+[BabelStream CUDA](https://github.com/UoB-HPC/BabelStream/blob/v3.3/CUDAStream.cu#L22)
 </center>
 </div>
+
+
 
 ## CUDA Code: Mem Init
 
@@ -398,7 +403,7 @@ int main(/*..*/){//..
 ~~~~ {.cpp}
 //above main
 __global__ void vector_sum(std::size_t _size,
-			   float _scale, float* _a, float* _b){
+	                       float* _a, float* _b){
   std::size_t index = blockIdx.x*blockDim.x + threadIdx.x;
   if (index < _size)
     _a[index] = _scale*_a[index] + _b[index];
@@ -406,7 +411,6 @@ __global__ void vector_sum(std::size_t _size,
 
 //in main: dispatch to device
 vector_sum<<<(vsize+255)/256, 256>>>(vsize,
-									 host_d,
 									 device_a,
 									 device_b);
 ~~~~~
@@ -511,7 +515,7 @@ _No Logo due to Apple's Copyright_
 
     * host  : C/C++ based API (lower level than CUDA)
 
-    * device: C11 derived language ([OpenCL 2.0](https://www.khronos.org/registry/cl/sdk/2.0/docs/OpenCL-2.0-refcard.pdf))
+    * device: C99 (OpenCL <2) or C11 derived language ([OpenCL 2.0](https://www.khronos.org/registry/cl/sdk/2.0/docs/OpenCL-2.0-refcard.pdf))
 
 
 </center>
@@ -522,16 +526,29 @@ _No Logo due to Apple's Copyright_
 ![](img/opencl-standardisation.jpg)
 </center>
 
+* OpenCL 2.2 out since May 16, 2017 (C++14 in kernels, SPIR-V 1.1 as intermediate language)
+
 ## Implementers
 
 <center>
-![](img/opencl-companies.jpg)
+![](img/opencl-companies.png)
 </center>
 
 ## OpenCL eco system
 
 <center>
 ![](img/opencl-ecosystem.png)
+</center>
+
+## OpenCL API flow
+
+<center>
+![](img/opencl-APIflow.png)  
+
+&nbsp;
+
+[Real World Example](https://github.com/UoB-HPC/BabelStream/blob/v3.3/OCLStream.cpp#L95)
+
 </center>
 
 
@@ -561,6 +578,147 @@ from [www.olcf.ornl.gov](https://www.olcf.ornl.gov/tutorials/opencl-vector-addit
 <center>
 ![by [Kasra Ganjavi](https://en.wikipedia.org/wiki/File:Andy_McKee,_January_2008.jpg)](img/Andy_McKee_January_2008.jpg)
 </center>
+
+## OpenCL Translation Table
+
+[columns,class="row"]
+
+[column,class="col-xs-6"]
+
+<center>
+
+OpenCL
+
+* local memory
+
+* private memory
+
+</center>
+
+[/column]
+
+[column,class="col-xs-6"]
+
+<center>
+
+CUDA
+
+* shared memory
+
+* local memory
+
+</center>
+
+[/column]
+
+[/columns]
+
+
+. . . 
+
+
+[columns,class="row"]
+
+[column,class="col-xs-6"]
+
+<center>
+
+* `NDRange` (index space) 
+
+* work group
+
+* work item
+
+</center>
+
+[/column]
+
+[column,class="col-xs-6"]
+
+<center>
+
+* grid
+
+* block
+
+* thread
+
+</center>
+
+[/column]
+
+[/columns]
+
+## [Boost.Compute](https://github.com/boostorg/compute)
+
+<center>
+* part of boost library
+
+* OpenCL wrapper enabling vendor independent parallel algorithms
+
+</center>
+
+~~~~ {.cpp}
+	compute::device gpu = compute::system::default_device();
+	compute::context ctx(gpu);
+    compute::command_queue queue(ctx, gpu);
+
+	compute::vector<float> device_a(a.size(), ctx);//etc..
+	compute::copy(host_a.begin(), host_a.end(),
+		device_a.begin(), queue);//etc..
+
+    compute::transform(device_a.begin(),device_a.end(),
+        device_a.begin(),compute::add<float>(),queue);
+~~~~
+
+
+## OpenCL Summary
+
+[columns,class="row"]
+
+[column,class="col-xs-6 text-success"]
+
+<center>
+
+* _free_
+
+* CPU+GPU+...
+
+* vendor independent, standardised API
+
+* write kernels once, dispatch anywhere (performance portability)
+
+* backwards compatible (long term support)
+
+* wrappers look promising (boost.compute)
+
+</center>
+
+[/column]
+
+. . . 
+
+[column,class="col-xs-6 text-warning"]
+
+<center>
+
+* plain C runtime API on host + device  
+(memory allocation, error handling, asynchronous calls, ...)
+
+* more explicit than CUDA
+
+* no good tooling (debuggers, profilers, ...)
+
+* kernels as strings? (runtime reveals bugs) 
+  
+* kernels written in C99 originally
+
+</center>
+
+[/column]
+
+[/columns]
+
 
 ## thrust
 
@@ -934,65 +1092,7 @@ by [Alno](https://commons.wikimedia.org/wiki/File:Ukulele-electro-acoustic.JPG)
 
 # [What can you use tomorrow](http://bloggerspath.com/5-cool-unusual-gadgets-to-observe-the-future/) { data-background="img/touchscreen-guitar.jpg" }
 
-## [Boost.Compute](https://github.com/boostorg/compute)
 
-<center>
-* not yet part of boost library
-
-* OpenCL wrapper enabling vendor independent parallel algorithms
-
-* conceptually very similar to thrust/bolt
-</center>
-
-~~~~ {.cpp}
-	compute::device gpu = compute::system::default_device();
-	compute::context ctx(gpu);
-    compute::command_queue queue(ctx, gpu);
-
-	compute::vector<float> device_a(a.size(), ctx);//etc..
-	compute::copy(host_a.begin(), host_a.end(),
-		device_a.begin(), queue);//etc..
-
-    compute::transform(device_a.begin(),device_a.end(),
-        device_a.begin(),compute::add<float>(),queue);
-~~~~
-
-## OpenCL tomorrow
-
-<center>
-![](img/khronos_road_map.png)  
-from [SIGGRAPH Asia 11/2015](https://www.khronos.org/assets/uploads/developers/library/2015-sigasia/SIGGRAPH-Asia_Nov15.pdf)  
-
-**Take away**: SPIR-V promising, SYCL very similar to boost.compute
-</center>
-
-## CUDA tomorrow
-
-~~~~ {.cpp}
-vector_sum<<<(vsize+255)/256, 256>>>(/*..*/);
-
-launch(vector_sum, /*..*/);
-~~~~
-<center>
-from GTC2015 (03/2015)
-</center>
-
-. . .
-
-~~~~ {.cpp}
-auto f1 = bulk_async(par(n), [=](parallel_agent &self)
-						    {
-							  int i = self.index();
-							  z[i] = a * x[i] + y[i];
-							});
- 
-auto f2 = bulk_then(f1, par(n), other_work);
-auto f3 = bulk_then(f1, par(n), more_work);
-when_all(f2, f3).wait();
-~~~~
-<center>
-from SC15 (11/2015, [agency](https://github.com/jaredhoberock/agency)) 
-</center>
 
 ## C++17
 
@@ -1039,7 +1139,7 @@ std::parallel::cuda, std::parallel::opencl
 
 </center>
 
-## My C++17 GPU excitement
+## C++17 and GPUs
 
 . . .
 
@@ -1068,33 +1168,16 @@ taken from concurrency TS
 
 # Summary
 
-## C++ on GPUs done right? 
-
 <center>
 
-* in production: almost dominated by C99
+* in production: almost dominated by C99 or C99-like APIs
 
-* on the horizon: performant, flexible and maintainable **C++ APIs** emerging
+* on the horizon: performant, flexible and maintainable **C++ APIs** emerging 
+(cub/thrust, boost.compute, sycl, ...) 
 
-
-![](img/800px-San_Francisco_Haight_Str_Guitar_Shop.jpg)
-</center>
-
-
-## GPUs are there to stay
-
-&nbsp;
-
-**GPUs today convert workstations to compute clusters, and clusters to supercomputers!**
-
-&nbsp;
-
-<center>
 * GPUs architecture is complex: obtaining max. performance challenging
 
-* accelerators are a must on the road to exascale/performance
 </center>
-
 
 
 ## Acknowledgements
