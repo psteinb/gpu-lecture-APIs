@@ -30,7 +30,7 @@ Data obtained from [Top500.org](www.Top500.org)
 
 <center>
 Nvidia Tesla  
-![](img/Nvidia-Tesla-K80_x400.jpg)
+![](img/nvidia_v100_x400.jpg)
 
 GPU without Graphics
 </center>
@@ -40,8 +40,8 @@ GPU without Graphics
 [column,class="col-xs-4"]
 
 <center>
-AMD FirePro  
-![](img/amd-firepro-s9150-server-graphics_x400.png)
+AMD Radeon Instinct  
+![](img/amd_radeoninstinct_mi25_x400.jpg)
 
 GPU without Graphics
 </center>
@@ -52,9 +52,9 @@ GPU without Graphics
 
 <center>
 Intel MIC  
-![](img/xeon_phi_x400.jpg)
+![](img/xeon_phi_x400_deprecated.jpg)
 
-Not Covered Today!
+Removed from Market in 2017
 </center>
 
 [/column]
@@ -67,29 +67,20 @@ Not Covered Today!
 <!-- TODO: image origins -->
 [columns,class="row vertical-align"]
 
-[column,class="col-xs-4"]
+[column,class="col-xs-6"]
 
 <center>
-_Nvidia Tesla K80_ 
-![](img/Nvidia-Tesla-K80_x400.jpg)
+_Nvidia Tesla V100_ 
+![](img/nvidia_v100_x400.jpg)
 </center>
 
 [/column]
 
-[column,class="col-xs-4"]
+[column,class="col-xs-6"]
 
 <center>
-_AMD FirePro S9170_
-![](img/amd-firepro-s9150-server-graphics_x400.png)
-</center>
-
-[/column]
-
-[column,class="col-xs-4"]
-
-<center>
-Intel Xeon Phi 5110P
-![](img/xeon_phi_x400.jpg)
+_AMD Radeon Instinct MI25_
+![](img/amd_radeoninstinct_mi25_x400.jpg)
 </center>
 
 [/column]
@@ -100,38 +91,25 @@ Intel Xeon Phi 5110P
 
 [columns,class="row vertical-align"]
 
-[column,class="col-xs-4"]
+[column,class="col-xs-6"]
 
 <center>
-* 2x GK210 chipsets
-* 2x 12 GB GDDR5
-* 2x 288 GB/s to RAM
-* 8.7 TFlops SP
-* 2.9 TFlops DP
+* GV100 chipsets
+* 16 GB HBM2
+* 900 GB/s to RAM
+* 15 TFlops SP
+* 7.5 TFlops DP
 </center>
 
 [/column]
 
-[column,class="col-xs-4"]
+[column,class="col-xs-6"]
 
 <center>
-* 1x Grenada XT
-* 32 GB GDDR5 RAM
-* 320 GB/s to RAM
-* 5.2 TFlops SP
-* 2.6 TFlops DP
-</center>
-
-[/column]
-
-[column,class="col-xs-4"]
-
-<center>
-* 62x x86 CPUs
-* 8 GB GDDR5 RAM
-* 320 GB/s to RAM
-* 2.1 TFlops SP
-* 1.1 TFlops DP
+* 1x Vega 
+* 16 GB HBM2 RAM
+* 700-900 GB/s to RAM
+* 12.5 TFlops SP
 </center>
 
 [/column]
