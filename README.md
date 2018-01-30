@@ -13,8 +13,6 @@ If you wanto to buil the slides, you need:
 
 * pandoc 
 * [pandocfilters](https://github.com/psteinb/pandocfilters)
-* texlive or similar latex suite
-* pgf (version 3.0 or higher)
 * GNU make
 
 If anything does not build, please let me know.
