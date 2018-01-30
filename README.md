@@ -19,8 +19,6 @@ If you wanto to buil the slides, you need:
 
 If anything does not build, please let me know.
 
-The cude examples were tested under CUDA 7 and hcc/master of Dec 1st, 2015.
-
 # License
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
