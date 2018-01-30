@@ -1,14 +1,11 @@
-# meetingcpp2015
+# Slides for my GPU APIs lecture at TU Dresden, Germany
 
-This is my repository for slides and code examples for my MeetingC++ talk, Dec 5th 2015, in Berlin.
+This is my repository for slides and code examples for GPU APIs lecture at TU Dresden, Germany.
 
 # Slides
 
-The slides can be viewed under [this URL](https://idisk.mpi-cbg.de/~steinbac/meetingcpp2015) or locally by opening index.html with a browser of your choice (chrome/chromium and firefox give the best results).
+The slides can be viewed under [this URL](https://psteinb.github.io/gpu-lecture-APIs/index.html) or locally by opening index.html with a browser of your choice (chrome/chromium and firefox give the best results).
 
-# Video Recording
-
-A video recording of the talk is available on [youtube](https://www.youtube.com/watch?v=z43l_LaOqnM).
 
 # Dependencies
 
